@@ -31,7 +31,6 @@ const Middleware:React.FC<MiddlewareProps> = ({
         if(!isAuthenticated && !isPublicRoute && !isAuthRoute) {
             navigate('/auth/login');
         }
-        console.log("Middleware location", pathname);
     }, [isAuthenticated, isAuthRoute, isPublicRoute, navigate , pathname]);
 
     return children;

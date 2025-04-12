@@ -1,5 +1,6 @@
 import Logo from "@/components/common/Logo";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const links = [
@@ -27,21 +28,24 @@ const Navbar = () => {
 
             { /* Login and Sign Up Buttons */ }
             <div className="flex items-center gap-5 justify-between text-lg">
-                <Button
-                    variant="secondary"
-                    className="text-primary border border-primary bg-black/2 hover:text-primary/90 hover:bg-primary/10 transition-all duration-200 cursor-pointer underline-none"
-                >
-                    Login
-                </Button>
-                <Button
-                    variant="default"
-                    className="text-white transition-all duration-200 cursor-pointer"
-                >
-                    Sign up
-                </Button>
+                <Link to={"/auth/login"}>
+                    <Button
+                        variant="secondary"
+                        className="text-primary border border-primary bg-black/2 hover:text-primary/90 hover:bg-primary/10 transition-all duration-200 cursor-pointer underline-none"
+                    >
+                        Login
+                    </Button>
+                </Link>
+                <Link to={"/auth/register"}>
+                    <Button
+                        variant="default"
+                        className="text-white transition-all duration-200 cursor-pointer"
+                    >
+                        Sign up
+                    </Button>
+                </Link>
             </div>
         </div>
-        
     </header>
 )
 }
