@@ -1,22 +1,26 @@
-import AuthModal from "@/components/auth/AuthModal";
-// import Input from "@/components/auth/Input";
-// import { useRef } from "react";
-import { Link } from "react-router-dom";
 import * as z from "zod";
-import { useRef } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
     Form,
     FormField,
 } from "@/components/ui/form";
-import { RegisterSchema } from "@/schemas/RegisterSchema";
 import InputField from "@/components/auth/Input";
+import AuthModal from "@/components/auth/AuthModal";
+import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { RegisterSchema } from "@/schemas/RegisterSchema";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser, selectLoading, selectUser } from "@/store/features/userSlice";
+import { AppDispatch } from "@/store/store";
 
 
 const RegisterPage = () => {
 
+    const dispatch = useDispatch<AppDispatch>();
+    const user = useSelector(selectUser);
+    const isLoading = useSelector(selectLoading);
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -24,31 +28,21 @@ const RegisterPage = () => {
     const form = useForm<z.infer<typeof RegisterSchema>>({
         resolver: zodResolver(RegisterSchema),
         defaultValues: {
-            name: "",
-            email: "",
+            name: user.name,
+            email: user.email,
             password: "",
         },
     });
 
-  const handleSubmit = () => {
+  const handleSubmit = async  () => {
     try{
-    //   dispatch(registerUser({
-    //     name: name,
-    //     contact: contact,
-    //     password: password
-    //   }))
-    //   .then((res) => {
-    //     if(res.type === 'auth/registerUser/fulfilled'){
-    //     dispatch(setIsAllowed(true));
-    //     navigate('/auth/verify');
-    //     }
-    //   });
-    console.log('Registering user')
+      const userData = form.getValues();
+      console.log(userData);
+      await dispatch(registerUser(userData));
     } catch (err) {
       console.log(err);
     }
   };
-  const isLoading = false;
 //   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, nextRef?: React.RefObject<HTMLInputElement>) => {
 //     if (e.key === 'Enter') {
 //       e.preventDefault();
@@ -72,7 +66,7 @@ const RegisterPage = () => {
   return (
     <>
       <AuthModal
-        disabled={false}
+        disabled={isLoading}
         backURL="/"
         title="Create Your Account"
         subTitlte="Join the Workify community to find your ideal job fit."
@@ -88,6 +82,7 @@ const RegisterPage = () => {
                     name="name"
                     render={({field} ) => (
                         <InputField
+                            disabled={isLoading}
                             ref={nameRef}
                             field={field}
                             label="Name"
@@ -99,6 +94,7 @@ const RegisterPage = () => {
                     name="email"
                     render={({field} ) => (
                         <InputField
+                            disabled={isLoading}
                             ref={emailRef}
                             type="email"
                             field={field}
@@ -111,9 +107,11 @@ const RegisterPage = () => {
                     name="password"
                     render={({field} ) => (
                         <InputField
+                            disabled={isLoading}
                             ref={passwordRef}
                             field={field}
                             label="Password"
+                            type="password"
                         />
                     )}
                 />
@@ -121,8 +119,9 @@ const RegisterPage = () => {
              <Button
               type='submit'
               className='mt-6 w-full text-lg font-semibold py-6 rounded-lg'
+              disabled={isLoading}
             >
-              Create an account
+              {isLoading ? 'Creating...' : 'Create an account'}
             </Button>
             </form>
         </Form>

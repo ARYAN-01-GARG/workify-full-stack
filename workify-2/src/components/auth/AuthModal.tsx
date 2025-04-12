@@ -17,13 +17,11 @@ const AuthModal:React.FC<AuthModalProps> = ({
     disabled = false,
     backURL='/'
 }) => {
-
     const navigate = useNavigate();
-
   return (
      <div className="relative h-full w-full p-8 flex justify-center items-center">
       <div
-        className="flex flex-col justify-center items-center gap-12 max-w-[385px]">
+        className="flex flex-col justify-center items-center gap-12 max-w-[360px]">
           <div className={`hidden lg:block absolute top-5 right-20 text-4xl ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}>
             <button disabled={disabled} onClick={() => navigate(backURL)}>←</button>
           </div>
