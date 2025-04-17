@@ -62,7 +62,7 @@ export const Verification_Email_Template = `
   </head>
   <body>
       <div class="container">
-          <div class="header">Verify Your Email || Decentlancer</div>
+          <div class="header">Verify Your Email || Workify</div>
           <div class="content">
               <p>Hello,</p>
               <p>Thank you for signing up! Please confirm your email address by entering the code below:</p>
@@ -70,7 +70,7 @@ export const Verification_Email_Template = `
               <p>If you did not create an account, no further action is required. If you have any questions, feel free to contact our support team.</p>
           </div>
           <div class="footer">
-              <p>&copy; ${new Date().getFullYear()} Decentlancer. All rights reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} Workify. All rights reserved.</p>
           </div>
       </div>
   </body>
@@ -148,7 +148,7 @@ export const Welcome_Email_Template = `
   </head>
   <body>
       <div class="container">
-          <div class="header">Welcome to Decentlancer!</div>
+          <div class="header">Welcome to Workify!</div>
           <div class="content">
               <p class="welcome-message">Hello {name},</p>
               <p>We’re thrilled to have you join us! Your registration was successful, and we’re committed to providing you with the best experience possible.</p>
@@ -162,7 +162,7 @@ export const Welcome_Email_Template = `
               <p>If you need any help, don’t hesitate to contact us. We’re here to support you every step of the way.</p>
           </div>
           <div class="footer">
-              <p>&copy; ${new Date().getFullYear()} Decentlancer. All rights reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} Workify. All rights reserved.</p>
           </div>
       </div>
   </body>

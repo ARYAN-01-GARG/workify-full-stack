@@ -3,6 +3,7 @@ const Logo = () => {
     <img
         loading="lazy"
         src="/logo.svg"
+        onClick={() => window.location.href = "/"}
         alt="Workify Logo"
         className="h-12"
     />

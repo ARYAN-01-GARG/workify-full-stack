@@ -16,7 +16,18 @@ export const publicRoutes = [
 export const authRoutes = [
     '/auth/login',
     '/auth/register',
-    '/auth/error',
+    '/auth/verify-otp',
+    '/auth/new-password',
+    '/auth/forgot-password',
+];
+
+/**
+ * An Array of pages that push user to OTP verification
+ * @type {string[]}
+ */
+export const verifyOtpRedirectionRoutes = [
+    '/auth/forgot-password',
+    '/auth/register',
 ];
 
 /**
@@ -30,4 +41,14 @@ export const apiRoutePrefix = '/api/auth';
  * The default redirect route after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = '/settings';
+export const DEFAULT_LOGIN_REDIRECT = '/logout';
+
+/**
+ * An array of protected routes that are available to the authorized user
+ * These are the protected routes that are available to the authorized user as well
+ * these routes are protected by the middleware
+ * @type {string[]}
+ */
+export const protectedRoutes = [
+    '/logout',
+]

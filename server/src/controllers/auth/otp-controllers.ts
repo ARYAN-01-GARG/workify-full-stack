@@ -4,6 +4,16 @@ import { APIError } from '../../types/apiError';
 import { transporter } from '../../config/emailConfig';
 import { Verification_Email_Template } from '../../utilities/emailTemplate';
 
+
+const resendOtp = async (req: Request, res: Response, next: NextFunction) => {
+    sendOtpEmail(req, res, next);
+
+    res.status(200).json({
+        success: true,
+        message: 'OTP has been sent successfully',
+    });
+
+}
 const sendOtpEmail = async (req : Request, res: Response, next: NextFunction) => {
     let { email } = req.body;
 
@@ -38,7 +48,7 @@ const sendOtpEmail = async (req : Request, res: Response, next: NextFunction) =>
     ]);
 
     const response = await transporter.sendMail({
-        from: '"Decentlancer" <aryangarg30842@gmail.com>',
+        from: '"Workify" <aryangarg30840@gmail.com>',
         to: email, // list of receivers
         subject: "Verify your Email", // Subject line
         text: "Verify your Email", // plain text body
@@ -85,12 +95,15 @@ const verifyOtp = async (req: Request, res: Response, next: NextFunction) => {
         where: { email }
     });
 
+
     res.status(200).json({
         success: true,
-        message: "Email verified successfully",
+        message: "OTP verified successfully",
     });
 }
 
 export {
-    sendOtpEmail
+    sendOtpEmail,
+    verifyOtp,
+    resendOtp
 }

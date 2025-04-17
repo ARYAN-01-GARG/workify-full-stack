@@ -40,7 +40,10 @@ const ReqSchema = z.object({
         .max(1024 , {
             message: 'Password must not exceed 1024 characters'
         })
-        .optional()
+        .optional(),
+    otp: z
+        .string()
+        .length(6)
 }).strict();
 
 export const registerSchema = ReqSchema.pick({
@@ -52,6 +55,11 @@ export const registerSchema = ReqSchema.pick({
 export const loginSchema = ReqSchema.pick({
     email: true,
     password: true
+})
+
+export const otpVerifySchema = ReqSchema.pick({
+    email: true,
+    otp: true
 })
 
 export const validateSchema = ( schema : ZodSchema )=> {

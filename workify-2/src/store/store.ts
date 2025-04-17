@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './features/userSlice';
+import MiddlewareReducer from './features/middlewareSlice';
 
 const store = configureStore({
     reducer: {
+        middleware : MiddlewareReducer,
         user : userReducer,
     },
 });

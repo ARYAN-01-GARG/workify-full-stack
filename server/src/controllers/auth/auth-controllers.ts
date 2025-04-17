@@ -1,11 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { prisma } from "../../config/prisma";
 import bcrypt from 'bcryptjs';
 import { ReqBodyRegisterUser , ReqBodyLoginUser } from '../../types/user-types';
 import { APIError } from '../../types/apiError';
+import { sendOtpEmail } from './otp-controllers';
 
 // Register Controller
-const registerUser = async (req: Request<{} , {}, ReqBodyRegisterUser>, res: Response) => {
+const registerUser = async (req: Request<{} , {}, ReqBodyRegisterUser>, res: Response , next : NextFunction) => {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
         throw new APIError('Please enter all fields', 400);
@@ -37,9 +38,11 @@ const registerUser = async (req: Request<{} , {}, ReqBodyRegisterUser>, res: Res
         }
     });
 
+    await sendOtpEmail(req, res , next)
+
     res.status(201).json({
         success: true,
-        message: 'User registered successfully',
+        message: 'OTP has been sent successfully',
         user : {
             id: newUser.id,
             name: newUser.name,
@@ -64,7 +67,7 @@ const loginUser = async (req: Request<{}, {}, ReqBodyLoginUser>, res: Response )
         }
     });
 
-    if (!foundUser) {
+    if (!foundUser || !foundUser.isVerified) {
         throw new APIError('User does not exist', 400);
     }
 
@@ -84,7 +87,8 @@ const loginUser = async (req: Request<{}, {}, ReqBodyLoginUser>, res: Response )
     res.status(200).json({
         success: true,
         message: 'User logged in successfully',
-        user: filteredUser
+        user: filteredUser,
+        token : 'ggdyjgshjdghsjdghsghdjgshdghsgd'
     });
 }
 

@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/form";
 import InputField from "@/components/auth/Input";
 import AuthModal from "@/components/auth/AuthModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import { AppDispatch } from "@/store/store";
 
 const RegisterPage = () => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const user = useSelector(selectUser);
     const isLoading = useSelector(selectLoading);
@@ -37,22 +38,13 @@ const RegisterPage = () => {
   const handleSubmit = async  () => {
     try{
       const userData = form.getValues();
-      console.log(userData);
-      await dispatch(registerUser(userData));
+      dispatch(registerUser(userData)).then((res) => {
+        if( res.meta.requestStatus === 'fulfilled' ) navigate('/auth/verify-otp')
+      })
     } catch (err) {
       console.log(err);
     }
   };
-//   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, nextRef?: React.RefObject<HTMLInputElement>) => {
-//     if (e.key === 'Enter') {
-//       e.preventDefault();
-//       if (nextRef) {
-//         nextRef.current?.focus();
-//       } else {
-//         handleSubmit(e as unknown as React.FormEvent);
-//       }
-//     }
-//   };
 
   const footer = (
     <p className="text-sm -mt-7">
