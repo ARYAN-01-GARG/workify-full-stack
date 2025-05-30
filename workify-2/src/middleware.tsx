@@ -9,9 +9,11 @@ import {
     verifyOtpRedirectionRoutes
 } from "./routes";
 import { useEffect } from "react";
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { selectToken } from "./store/features/userSlice";
 import { selectOtpActivation } from "./store/features/middlewareSlice";
+import { AppDispatch } from "./store/store";
+import { getAllPosts } from "./store/features/postsSlice";
 
 interface MiddlewareProps {
     children: React.ReactNode;
@@ -30,15 +32,18 @@ const Middleware:React.FC<MiddlewareProps> = ({
 
     const isAuthenticated = !!useSelector(selectToken);
 
+    const dispatch = useDispatch<AppDispatch>();
+
     useEffect(() => {
-        console.log("Middleware: ", pathname);
+        dispatch(getAllPosts());
+    }, [dispatch]);
+
+    useEffect(() => {
         if(isAuthenticated && isAuthRoute) {
             navigate(DEFAULT_LOGIN_REDIRECT);
-            console.log("Middleware: ", "isAuthenticated && isAuthRoute");
         }
         if(!isAuthenticated && !isPublicRoute && !isAuthRoute) {
             navigate('/auth/login');
-            console.log("Middleware: ", "!isAuthenticated && !isPublicRoute && !isAuthRoute");
         }
         if(!isOtpRoute && pathname === '/auth/verify-otp') {
             navigate('/auth/login');

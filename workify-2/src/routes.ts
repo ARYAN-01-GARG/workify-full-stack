@@ -41,7 +41,7 @@ export const apiRoutePrefix = '/api/auth';
  * The default redirect route after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = '/logout';
+export const DEFAULT_LOGIN_REDIRECT = '/home';
 
 /**
  * An array of protected routes that are available to the authorized user

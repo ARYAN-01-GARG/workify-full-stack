@@ -5,7 +5,7 @@ import { selectToken, selectUser } from "@/store/features/userSlice"
 
 function LandingPage() {
   const user = useSelector(selectUser);
-  const token = useSelector(selectToken)
+  const token = useSelector(selectToken);
   return (
     <>
         <Navbar/>

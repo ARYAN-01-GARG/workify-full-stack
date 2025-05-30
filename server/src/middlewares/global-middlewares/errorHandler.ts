@@ -1,12 +1,13 @@
 import {  Request , Response , NextFunction } from "express";
 import { APIError } from "../../types/apiError";
+import logger from "./logger";
 
 const asyncHandler = (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
 
 const globalErrorHandler = (err : Error | APIError , req: Request, res: Response, next: NextFunction) => {
-    console.error(err.message); // Log the error stack
+    logger.error(err.stack); // Log the error stack
     if(err instanceof APIError) {
         res.status(err.statusCode).json({
             success: 'Error',

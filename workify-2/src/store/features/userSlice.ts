@@ -36,8 +36,9 @@ export const registerUser = createAsyncThunk(
             console.log('Register response:');
             return response.data;
         } catch (error) {
-            const err = error as { response: { data: { error: string } } };
+            const err = error as { status : number , response: { data: { error: string } } };
             console.error('Error:', error);
+            if(err.status === 500) toast.error('Server error');
             toast.error(err.response?.data?.error || 'Failed to register user');
             throw error;
         }
@@ -56,9 +57,10 @@ export const loginUser = createAsyncThunk(
             console.log('Login response:', response.data);
             return response.data;
         } catch (error) {
-            const err = error as { response: { data: { error: string } } };
+            const err = error as { status : number , response: { data: { error: string } } };
             console.error('Error:', error);
-            toast.error(err.response?.data?.error || 'Login failed');
+            if(err.status === 500) toast.error('Login Faild : Some Error Occured');
+            else toast.error(err.response?.data?.error || 'Login failed');
             throw error;
         }
     }

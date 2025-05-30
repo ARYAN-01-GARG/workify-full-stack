@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './features/userSlice';
-import MiddlewareReducer from './features/middlewareSlice';
+import profileReducer from './features/profileSlice';
+import postsReducer from './features/postsSlice';
+import middlewareReducer from './features/middlewareSlice';
 
 const store = configureStore({
     reducer: {
-        middleware : MiddlewareReducer,
-        user : userReducer,
+        middleware: middlewareReducer,
+        user: userReducer,
+        profile: profileReducer,
+        posts: postsReducer,
     },
 });
 

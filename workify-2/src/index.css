@@ -14,6 +14,7 @@ html, body{
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-background-primary: var(--bg-primary);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -57,6 +58,7 @@ html, body{
   --popover-foreground: oklch(0.145 0 0);
   /* --primary: oklch(0.205 0 0); */
   --primary: #2A5B9E;
+  --bg-primary : #E6ECF8;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
