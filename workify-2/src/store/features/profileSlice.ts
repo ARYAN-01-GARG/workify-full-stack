@@ -19,7 +19,7 @@ interface Employer {
     position: string;
     startDate: string;
     endDate: string | null;
-    responsibilities: string[];
+    description: string;
 }
 
 interface Candidate {

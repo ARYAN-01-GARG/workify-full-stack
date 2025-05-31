@@ -10,7 +10,7 @@ datasource db {
 enum Role {
   CANDIDATE
   ADMIN
-  RECRUITTER
+  RECRUITER
 }
 
 model User {
@@ -25,9 +25,10 @@ model User {
   updatedAt    DateTime @updatedAt
   role         Role     @default(CANDIDATE)
 
-  posts Post[]
-  recruiter Recruiter?
-  candidate Candidate?
+  posts        Post[]
+  pastEmployer Employer[]
+  recruiter    Recruiter?
+  candidate    Candidate?
 }
 
 model Otp {
@@ -41,24 +42,26 @@ model Otp {
 }
 
 model Post {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  image       String
-  location    String
-  remote      Boolean
-  company     String
-  skills      String[]
-  offer       String
-  duration    String
-  experience  Int
-  startDate   String
-  userId    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String        @id @default(cuid())
+  title        String
+  description  String
+  image        String
+  location     String
+  remote       Boolean
+  company      String
+  skills       String[]
+  offer        String
+  duration     String
+  experience   Int
+  applications Application[]
+  startDate    String
+  userId       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   // Relation of Post with user
   user User @relation(fields: [userId], references: [id])
+
   @@index([createdAt])
 }
 
@@ -78,14 +81,81 @@ model Recruiter {
 }
 
 model Candidate {
-  id         String   @id @default(cuid())
-  userId     String   @unique
-  resume     String?
-  bio        String?
-  skills     String[]
-  experience Int?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  resume       String?
+  portfolio    String?
+  github       String?
+  location     String?
+  certificates String[]
+  skills       String[]
+  experience   Int?     @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  education Education[]
+  projects  Project[]
 
   user User @relation(fields: [userId], references: [id])
+}
+
+model Education {
+  id            String   @id @default(cuid())
+  userId        String
+  degree        String
+  institution   String
+  yearOfPassing Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  candidate Candidate @relation(fields: [userId], references: [id])
+}
+
+model Project {
+  id           String   @id @default(cuid())
+  userId       String
+  title        String
+  description  String
+  link         String?
+  technologies String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  candidate Candidate @relation(fields: [userId], references: [id])
+}
+
+model Employer {
+  id           String    @id @default(cuid())
+  userId       String
+  companyName  String
+  position     String
+  description  String
+  startDate    DateTime
+  endDate      DateTime?
+  companyEmail String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum JobPostStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Application {
+  id          String        @id @default(cuid())
+  postId      String
+  candidateId String
+  status      JobPostStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relation of Application with Post and Candidate
+  post Post @relation(fields: [postId], references: [id])
+
+  @@unique([candidateId, postId])
+  @@index([postId])
 }

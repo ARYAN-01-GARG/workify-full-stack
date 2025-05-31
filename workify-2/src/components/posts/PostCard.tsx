@@ -39,7 +39,10 @@ function PostCard({
 
 
   return (
-    <div className="bg-white rounded-xl w-full border border-[#B0B0B0] px-8 py-12">
+    <div className="bg-white rounded-xl w-full border border-[#B0B0B0] px-8 py-12 relative mt-5">
+      <div className="absolute -top-5 right-5 bg-[#C8D8EF] text-primary text-lg p-2 px-4 border border-[#C8D8EF] rounded-lg">
+        {post.remote ? 'Remote' : 'In-Office'}
+      </div>
       <PostHeader image={post.image} title={post.title} company={post.company} location={post.location} />
       {/* Skills Section */}
       <div className="flex gap-x-5 gap-y-3 items-center mt-8 mb-4">

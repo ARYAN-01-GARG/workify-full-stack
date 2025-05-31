@@ -10,7 +10,8 @@ export const getAllPosts = async (req: Request, res: Response) => {
     logger.info('Fetching all posts');
     const posts = await prisma.post.findMany({
         include: {
-            user: true
+            user: true,
+            applications: true
         },
         orderBy: {
             createdAt: 'desc'
@@ -36,7 +37,7 @@ export const getPostById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const post = await prisma.post.findUnique({
       where: { id },
-      include: { user: true }
+      include: { user: true ,  applications: true }
     });
     if (!post) {
         logger.error(`Post with ID ${id} not found`);
@@ -52,7 +53,18 @@ export const getPostById = async (req: Request, res: Response) => {
 };
 
 // Create a new post
-export const createPost = async (req: Request, res: Response) => {
+export const createPost = async (req: Request<{}, {}, {
+    title: string;
+    description: string;
+    location: string;
+    remote: boolean;
+    company: string;
+    skills: string[];
+    offer: string;
+    duration: string;
+    experience: number;
+    startDate: string;
+}>, res: Response) => {
     logger.info('Creating a new post');
     logger.info(`Request body: ${JSON.stringify(req.body)}`);
     const userId= req.user?.id ;
@@ -88,7 +100,10 @@ export const createPost = async (req: Request, res: Response) => {
         experience,
         startDate,
         userId
-      }
+      },
+        include: {
+            applications: true
+        }
     });
     res.status(201).json({
         success: true,
@@ -97,13 +112,21 @@ export const createPost = async (req: Request, res: Response) => {
     });
 };
 
-// Update a post
-// TODO: NEED to make it
-export const updatePost = async (req: Request, res: Response, next: NextFunction) => {
+export const updatePost = async (req: Request<{ id : string }, {}, {
+    title: string;
+    description?: string;
+    location?: string;
+    remote?: boolean;
+    company?: string;
+    skills?: string[];
+    offer?: string;
+    duration?: string;
+    experience?: number;
+    startDate?: string;
+}>, res: Response, next: NextFunction) => {
     logger.info(`Update post invoked`);
     logger.info(`Request params: ${JSON.stringify(req.params)}`);
     logger.info(`Request body: ${JSON.stringify(req.body)}`);
-
     const userId = req.user?.id;
     if (!userId) {
         logger.error('User ID is missing in request');
@@ -111,36 +134,65 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
     }
     logger.info(`User ID: ${userId}`);
     const { id } = req.params;
-    const data = req.body;
-    try {
-        const post = await prisma.post.update({
-            where: { id },
-            data
-        });
-        res.json(post);
-    } catch (error) {
-        next(new APIError('Failed to update post', 400));
+    if (!id) {
+        logger.error('Post ID is required for update');
+        throw new APIError('Post ID is required', 400);
     }
+    const post = await prisma.post.findUnique({
+        where: { id , userId },
+    });
+
+    if (!post) {
+        logger.error(`Post with ID ${id} not found or does not belong to user ${userId}`);
+        throw new APIError('Post not found', 404);
+    }
+    logger.info(`Post with ID ${id} found, proceeding to update`);
+    const data = req.body;
+    const updatedPost = await prisma.post.update({
+        where: { id },
+        data : {
+            ...data
+        } ,
+        include: {
+            user: true,
+            applications: true
+        }
+    });
+    if( !updatedPost ) {
+        logger.error(`Failed to update post with ID ${id}`);
+        throw new APIError('Failed to update post', 500);
+    }
+    logger.info(`Post with ID ${id} updated successfully by user ${userId}`);
+    res.status(200).json({
+        success: true,
+        message: 'Post updated successfully',
+        post: updatedPost
+    });
 };
 
 // Delete a post
-export const deletePost = async (req: Request, res: Response, next: NextFunction) => {
+export const deletePost = async (req: Request<{ id : string }>, res: Response, next: NextFunction) => {
     logger.info(`Delete post invoked`);
     logger.info(`Request params: ${JSON.stringify(req.params)}`);
     const { id } = req.params;
-    try {
-        const post = await prisma.post.delete({
-            where: { id },
-        });
-        logger.info(`Post with ID ${id} deleted successfully`);
-        res.status(200).json({
-            success: true,
-            message: 'Post deleted successfully',
-            post
-        });
-    } catch (error: any) {
-        logger.error(`Failed to delete post with ID ${id}: ${error.message}`);
-        // Prisma throws an error if not found
-        next(new APIError('Post not found', 404));
+    logger.info(`Post ID to delete: ${id}`);
+    const userId = req.user?.id;
+    if (!userId) {
+        logger.error('User ID is missing in request');
+        throw new APIError('User is not authenticated', 401);
     }
+    logger.info(`User ID: ${userId}`);
+    const post = await prisma.post.delete({
+        where: { id , userId  },
+    });
+    if (!post) {
+        logger.error(`Post with ID ${id} not found or does not belong to user ${userId}`);
+        throw new APIError('Post not found', 404);
+    }
+    logger.info(`Post with ID ${id} deleted successfully by user ${userId}`);
+    res.status(200).json({
+        success: true,
+        message: 'Post deleted successfully',
+        post
+    });
 };
