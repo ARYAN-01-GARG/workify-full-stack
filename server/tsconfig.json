@@ -2,12 +2,14 @@
     "compilerOptions": {
         "strict": true,
         "esModuleInterop": true,
+        "module": "commonjs",
         "moduleResolution": "node",
         "target": "ES6",
         "outDir": "./dist"
     },
     "include": [
         "src/**/*",
-        "src/types"
+        "src/types",
+        "prisma/**/*"
     ]
 }

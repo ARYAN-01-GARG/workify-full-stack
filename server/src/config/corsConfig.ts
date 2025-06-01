@@ -2,6 +2,7 @@ import cors from 'cors';
 
 const whitelist = [
   'http://localhost:5173',
+  'http://localhost:8080', // Added for Docker Compose frontend
   'https://example.com', // Add your production domain here
 ];
 

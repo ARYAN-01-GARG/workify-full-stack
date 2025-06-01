@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -164,7 +165,7 @@ model Image {
   id        String   @id @default(cuid())
   publicId  String
   url       String
-  userId   String
+  userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
