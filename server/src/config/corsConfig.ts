@@ -7,6 +7,7 @@ const whitelist = [
 
 const corsOptions = {
     origin : ( origin : string | undefined , callback : ( error : Error | null , success? : boolean ) => void ) =>   {
+        console.log('CORS request from origin:', origin); // Debug log
         if (!origin || whitelist.indexOf( origin ) !== -1) {
             callback( null , true );
         } else {
@@ -22,7 +23,6 @@ const corsOptions = {
     exposedHeaders : [
         'X-Total-Count',
         'Content-Range',
-        'X-'
     ],
     credentials : true,
     maxAge : 600 ,
