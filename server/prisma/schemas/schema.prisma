@@ -75,7 +75,6 @@ model Recruiter {
   jobTitle       String?
   jobDescription String?
   jobLocation    String?
-  companyEmail   String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
