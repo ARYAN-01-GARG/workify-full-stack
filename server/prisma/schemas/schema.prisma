@@ -49,10 +49,12 @@ model Post {
   image        String
   location     String
   remote       Boolean
+  isActive     Boolean       @default(true)
   company      String
   skills       String[]
-  offer        String
-  duration     String
+  offerMin     Int          @default(0)
+  offerMax     Int
+  duration     Int
   experience   Int
   applications Application[]
   startDate    String

@@ -8,12 +8,13 @@ export interface Post {
     description: string;
     skills : string[];
     image: null | string;
-    duration : string;
+    duration : number;
     experience : number;
     location: string;
     remote: boolean;
     company: string;
-    offer: string;
+    offerMin: number;
+    offerMax: number;
     startDate: string;
     createdAt: string;
     updatedAt: string;

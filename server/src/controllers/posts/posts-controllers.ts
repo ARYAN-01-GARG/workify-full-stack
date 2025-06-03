@@ -60,8 +60,9 @@ export const createPost = async (req: Request<{}, {}, {
     remote: boolean;
     company: string;
     skills: string[];
-    offer: string;
-    duration: string;
+    offerMin: number;
+    offerMax: number;
+    duration: number;
     experience: number;
     startDate: string;
 }>, res: Response) => {
@@ -80,7 +81,8 @@ export const createPost = async (req: Request<{}, {}, {
         remote,
         company,
         skills,
-        offer,
+        offerMin,
+        offerMax,
         duration,
         experience,
         startDate,
@@ -95,7 +97,8 @@ export const createPost = async (req: Request<{}, {}, {
         remote,
         company,
         skills,
-        offer,
+        offerMin,
+        offerMax,
         duration,
         experience,
         startDate,
@@ -119,8 +122,9 @@ export const updatePost = async (req: Request<{ id : string }, {}, {
     remote?: boolean;
     company?: string;
     skills?: string[];
-    offer?: string;
-    duration?: string;
+    offerMin?: number;
+    offerMax?: number;
+    duration?: number;
     experience?: number;
     startDate?: string;
 }>, res: Response, next: NextFunction) => {

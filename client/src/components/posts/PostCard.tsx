@@ -1,16 +1,7 @@
 import { Calendar, CalendarClock, Wallet } from "lucide-react";
 import { Button } from "../ui/button";
-import PostHeader from "./PostHeader"
+import PostHeader from "./PostHeader";
 import { Post } from "@/store/features/postsSlice";
-
-function formatDate(dateString: string) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-}
 
 function daysAgo(dateString: string) {
   const date = new Date(dateString);
@@ -22,21 +13,49 @@ function daysAgo(dateString: string) {
   return `${diffDays} days ago`;
 }
 
-function PostCard({
-  post
-} : {
-  post: Post;
-}) {
+function getApplyBy(dateString: string) {
+  const date = new Date(dateString);
+  date.setMonth(date.getMonth() + 1);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
 
+function PostCard({ post }: { post: Post }) {
   const skills = post.skills;
 
-  const JobDescriptions = [
-    { icon : Wallet, description: 'Job Offer', value: post.offer },
-    { icon : CalendarClock, description: 'Duration', value: post.duration },
-    { description: 'Experience', value: post.experience === 0 ? 'Fresher' : post.experience.toString()  + ' - years' },
-    { icon : Calendar, description: 'Start Date', value: post.startDate },
-  ]
+  const formatOffer = (min: number, max: number) => {
+    const format = (val: number) =>
+      val >= 1000 ? (val / 1000).toFixed(1).replace(/\.0$/, '') + 'K' : val.toString();
+    return format(min) + ' - ' + format(max) + ' USD';
+  };
 
+  const JobDescriptions = [
+    {
+      icon: Wallet,
+      description: 'Job Offer',
+      value: formatOffer(post.offerMin, post.offerMax),
+    },
+    {
+      icon: CalendarClock,
+      description: 'Duration',
+      value:
+        post.duration < 12
+          ? post.duration.toString() + ' months'
+          : `${Math.floor(post.duration / 12)} ${post.duration / 12 === 1 ? 'year' : 'years'}${post.duration % 12 === 0 ? '' : ' ' + (post.duration % 12).toString() + ' months'}`,
+    },
+    {
+      description: 'Experience',
+      value: post.experience === 0 ? 'Fresher' : post.experience.toString() + ' - years',
+    },
+    {
+      icon: Calendar,
+      description: 'Start Date',
+      value: post.startDate,
+    },
+  ];
 
   return (
     <div className="bg-white rounded-xl w-full border border-[#B0B0B0] px-8 py-12 relative mt-5">
@@ -55,24 +74,21 @@ function PostCard({
           </div>
         ))}
       </div>
-
       {/* Description Section */}
       <div className="flex items-center justify-between w-full pr-8">
-        {
-          JobDescriptions.map((item, index) => (
-            <PostCardDescription
-              key={index}
-              icon={item.icon}
-              description={item.description}
-              value={item.value}
-            />
-          ))}
+        {JobDescriptions.map((item, index) => (
+          <PostCardDescription
+            key={index}
+            icon={item.icon}
+            description={item.description}
+            value={item.value}
+          />
+        ))}
       </div>
-
       {/* Button Section and Apply By section*/}
       <div className="text-xl w-full flex justify-between items-center mt-8">
         <span className="text-primary font-[500]">
-          {`Apply By ${formatDate(post.createdAt)} . Posted ${daysAgo(post.createdAt)}`}
+          {`Apply By ${getApplyBy(post.createdAt)} . Posted ${daysAgo(post.createdAt)}`}
         </span>
         <div className="flex gap-4 text-xl">
           <Button variant={"outline"} size={"lg"} className="cursor-pointer font-semibold">
@@ -83,31 +99,30 @@ function PostCard({
           </Button>
         </div>
       </div>
-
     </div>
-  )
+  );
 }
 
 export default PostCard;
 
 export const PostCardDescription = ({
-  icon : Icon,
+  icon: Icon,
   description,
   value,
-} : {
+}: {
   icon?: React.ElementType;
   description: string;
   value: string;
 }) => {
   return (
     <div className="m-6 p-2 max-w-[180px] flex flex-col items-center gap-y-3">
-        <span className="flex gap-x-1 items-center text-[#5D5D5D] font-[500] text-xl">
-          {Icon && <Icon className="h-6 w-6" />}
-          <span>{description}</span>
-        </span>
-        <span className="text-[#3D3D3D] font-[500] text-xl">
-          <span>{value}</span>
-        </span>
+      <span className="flex gap-x-1 items-center text-[#5D5D5D] font-[500] text-xl">
+        {Icon && <Icon className="h-6 w-6" />}
+        <span>{description}</span>
+      </span>
+      <span className="text-[#3D3D3D] font-[500] text-xl">
+        <span>{value}</span>
+      </span>
     </div>
-  )
-}
+  );
+};
