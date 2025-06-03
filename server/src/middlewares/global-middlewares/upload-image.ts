@@ -6,7 +6,7 @@ import type { Request } from 'express';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadPath = path.resolve(__dirname, '../../uploads/');
+        const uploadPath = path.resolve(__dirname, '../../../uploads/');
         // Ensure the directory exists
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
