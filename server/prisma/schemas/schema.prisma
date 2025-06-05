@@ -91,7 +91,7 @@ model Candidate {
   location     String?
   certificates String[]
   skills       String[]
-  experience   Int?     @default(0)
+  experience   Int     @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -103,14 +103,14 @@ model Candidate {
 
 model Education {
   id            String   @id @default(cuid())
-  userId        String
+  userId       String
   degree        String
   institution   String
   yearOfPassing Int
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  candidate Candidate @relation(fields: [userId], references: [id])
+  candidate Candidate @relation(fields: [userId], references: [userId])
 }
 
 model Project {
@@ -123,7 +123,8 @@ model Project {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  candidate Candidate @relation(fields: [userId], references: [id])
+  candidate Candidate @relation(fields: [userId], references: [userId])
+  @@index([userId])
 }
 
 model Employer {

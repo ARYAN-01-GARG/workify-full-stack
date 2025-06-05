@@ -1,16 +1,14 @@
 import { Router } from 'express';
 import authMiddleware from '../../middlewares/auth/auth-middleware';
+import { createCandidate, getCandidate, updateCandidate } from '../../controllers/candidate/candidate-controllers';
+import { asyncHandler } from '../../middlewares/global-middlewares/errorHandler';
 
 const router = Router();
 
-router.post('/', authMiddleware,);
+router.post('/', authMiddleware, asyncHandler(createCandidate));
 
-router.get('/', authMiddleware,);
+router.get('/:candidateId', authMiddleware, asyncHandler(getCandidate));
 
-router.get('/:id', authMiddleware,);
-
-router.get('/all', authMiddleware,);
-
-router.put('/', authMiddleware,);
+router.put('/', authMiddleware, asyncHandler(updateCandidate));
 
 export default router;
