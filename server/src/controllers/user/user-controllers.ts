@@ -30,11 +30,11 @@ export const getCurrentUser = async (req : Request, res: Response, next: NextFun
         throw new APIError('User not found', 404);
     }
 
-    const { password, version , isVerified , ...userWithoutPassword } = user || {};
+    const { password, version , isVerified, ...userWithoutPassword } = user || {};
 
     logger.info('User details fetched successfully');
     res.status(200).json({
         success: true,
-        user: userWithoutPassword
+        user: userWithoutPassword,
     });
 }
