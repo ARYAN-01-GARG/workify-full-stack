@@ -1,25 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export interface Post {
-    id: number;
-    userId: number;
-    title: string;
-    description: string;
-    skills : string[];
-    image: null | string;
-    duration : number;
-    experience : number;
-    location: string;
-    remote: boolean;
-    company: string;
-    offerMin: number;
-    offerMax: number;
-    startDate: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
 interface PostsState {
     posts: Post[];
     loading: boolean;

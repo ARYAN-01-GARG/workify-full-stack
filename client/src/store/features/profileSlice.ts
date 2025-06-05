@@ -1,66 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { tempUser } from './userSlice';
 
-interface Project {
-    id: string;
-    title: string;
-    description: string;
-    technologies: string[];
-    link: string | null;
-}
-
-interface Education {
-    degree: string;
-    institution: string;
-    yearOfPassing: number;
-}
-
-interface Employer {
-    companyName: string;
-    position: string;
-    startDate: string;
-    endDate: string | null;
-    description: string;
-}
-
-interface Candidate {
-    id: string;
-    name: string;
-    email: string;
-    profileImage: string | null;
-    skills: string[];
-    experience: number;
-    education: Education[];
-    certificates: string[];
-    github: string | null;
-    projects : Project[];
-    location: string;
-    resume: string | null;
-    portfolio: string | null;
-    pastEmployers: Employer[];
-}
-
-interface Recruiter{
-    id : string;
-    name : string;
-    email : string;
-    profileImage: string | null;
-    company: string | null;
-    jobTitle: string | null;
-    jobDescription: string | null;
-    jobLocation: string | null;
-    pastEmployers: Employer[];
-}
-
-interface ProfileSliceState {
-    candidate: Candidate | null;
-    recruiter: Recruiter | null;
+interface otherUserState {
+    user : User;
     loading: boolean;
     error: string | null;
 }
 
-const initialState : ProfileSliceState = {
-    candidate: null,
-    recruiter : null,
+const tempOtherUser: User = JSON.parse(tempUser);
+
+const initialState : otherUserState = {
+    user : tempOtherUser,
     loading: false,
     error: null,
 }
@@ -69,21 +19,20 @@ const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        setCandidates(state, action) {
-            state.candidate = action.payload;
+        setUser(state, action) {
+            state.user = action.payload;
         },
-        setCandidateLoading(state, action) {
+        setLoading(state, action) {
             state.loading = action.payload;
         },
-        setCandidateError(state, action) {
+        setError(state, action) {
             state.error = action.payload;
         },
     },
 });
 
-export const { setCandidates, setCandidateLoading, setCandidateError } = profileSlice.actions;
-export const selectCandidates = (state: { profile: ProfileSliceState }) => state.profile.candidate;
-export const selectRecruiter = (state: { profile: ProfileSliceState }) => state.profile.recruiter;
-export const selectCandidateLoading = (state: { profile: ProfileSliceState }) => state.profile.loading;
-export const selectCandidateError = (state: { profile: ProfileSliceState }) => state.profile.error;
+export const { setUser, setLoading, setError } = profileSlice.actions;
+export const selectOtherUser = (state: { profile: otherUserState }) => state.profile.user;
+export const selectLoading = (state: { profile: otherUserState }) => state.profile.loading;
+export const selectError = (state: { profile: otherUserState }) => state.profile.error;
 export default profileSlice.reducer;

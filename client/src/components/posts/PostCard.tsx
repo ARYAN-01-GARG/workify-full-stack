@@ -1,7 +1,6 @@
 import { Calendar, CalendarClock, Wallet } from "lucide-react";
 import { Button } from "../ui/button";
 import PostHeader from "./PostHeader";
-import { Post } from "@/store/features/postsSlice";
 
 function daysAgo(dateString: string) {
   const date = new Date(dateString);
@@ -44,7 +43,7 @@ function PostCard({ post }: { post: Post }) {
       value:
         post.duration < 12
           ? post.duration.toString() + ' months'
-          : `${Math.floor(post.duration / 12)} ${post.duration / 12 === 1 ? 'year' : 'years'}${post.duration % 12 === 0 ? '' : ' ' + (post.duration % 12).toString() + ' months'}`,
+          : `${Math.floor(post.duration / 12)} ${Math.floor(post.duration / 12) === 1 ? 'year ' : 'years '}${post.duration % 12 === 0 ? '' : ' ' + (post.duration % 12).toString() + ' months'}`,
     },
     {
       description: 'Experience',

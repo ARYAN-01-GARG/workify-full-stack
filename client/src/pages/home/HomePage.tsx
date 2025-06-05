@@ -13,6 +13,7 @@ export default function HomePage() {
   const error = useSelector(selectPostsLoading);
   const dispatch = useDispatch<AppDispatch>();
 
+
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
