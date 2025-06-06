@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import express, { Express } from "express";
 import { connectToDB } from "./config/prisma";
 import AuthRoutes from "./routes/auth/auth-routes";
@@ -15,9 +15,6 @@ import corsConfig from "./config/corsConfig";
 import helmet from "helmet";
 
 const app: Express = express();
-
-// Load environment variables
-dotenv.config();
 
 // Connect to database
 connectToDB();
