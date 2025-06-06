@@ -39,7 +39,7 @@ const Middleware:React.FC<MiddlewareProps> = ({
     }, [dispatch]);
 
     useEffect(() => {
-        if(isAuthenticated && isAuthRoute) {
+        if(isAuthenticated && (isAuthRoute || isPublicRoute)) {
             navigate(DEFAULT_LOGIN_REDIRECT);
         }
         if(!isAuthenticated && !isPublicRoute && !isAuthRoute) {
