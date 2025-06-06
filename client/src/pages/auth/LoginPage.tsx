@@ -24,6 +24,7 @@ const LoginPage = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
+
     useEffect(() => {
         if (emailRef.current) {
             emailRef.current.focus();

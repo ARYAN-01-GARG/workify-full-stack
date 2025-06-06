@@ -15,8 +15,6 @@ export const tempUser = JSON.stringify({
     email: '',
     role: 'CANDIDATE',
     profileImage: null,
-    createdAt: '',
-    updatedAt: '',
     posts: [],
     candidate: null,
     recruiter: null,

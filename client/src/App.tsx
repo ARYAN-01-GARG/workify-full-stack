@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import LandingPage from "./components/landing-page/LandingPage"
+import LandingPageLayout from "./layouts/LandingPageLayout"
 import NotFound from "./NotFound"
 import AuthPageLayout from "./layouts/AuthLayout"
 import RegisterPage from "./pages/auth/RegisterPage"
@@ -16,7 +16,7 @@ function App() {
     <>
       <Routes>
         {/* Public Routes */}
-        <Route index  element={<LandingPage/>}/>
+        <Route index  element={<LandingPageLayout />}/>
 
         {/* Auth Routes */}
         <Route path="/auth" element={<AuthPageLayout/>}>
