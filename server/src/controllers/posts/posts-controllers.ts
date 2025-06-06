@@ -6,17 +6,27 @@ import logger from '../../middlewares/global-middlewares/logger';
 
 
 // Get all posts
-export const getAllPosts = async (req: Request, res: Response) => {
+export const getAllPosts = async (req: Request<{}, {}, {}, { page?: number; pageSize?: number }>, res: Response) => {
     logger.info('Fetching all posts');
-    const posts = await prisma.post.findMany({
-        include: {
-            user: true,
-            applications: true
-        },
-        orderBy: {
-            createdAt: 'desc'
-        }
-    });
+    const page = Number(req.query.page) || 1;
+    const pageSize = Number(req.query.pageSize) || 10;
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+
+    const [posts, total] = await Promise.all([
+        prisma.post.findMany({
+            include: {
+                user: true,
+                applications: true
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+            skip,
+            take
+        }),
+        prisma.post.count()
+    ]);
     if (!posts || posts.length === 0) {
         logger.warn('No posts found');
         // Throwing an APIError to be handled by the global error handler
@@ -26,7 +36,11 @@ export const getAllPosts = async (req: Request, res: Response) => {
     res.status(200).json({
         success: true,
         message: 'Posts fetched successfully',
-        posts
+        posts,
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize)
     });
 };
 
@@ -198,5 +212,76 @@ export const deletePost = async (req: Request<{ id : string }>, res: Response, n
         success: true,
         message: 'Post deleted successfully',
         post
+    });
+};
+
+export const searchPosts = async (req: Request<{}, {}, {}, { offerMin?: number; offerMax?: number; location?: string; remote?: boolean | string; company?: string; skills?: string[]; experience?: number; page?: number; pageSize?: number }>, res: Response) => {
+    logger.info(`Search posts invoked`);
+    logger.info(`Request query: ${JSON.stringify(req.query)}`);
+
+    const { offerMin, offerMax, location, remote, company, skills, experience } = req.query;
+    const page = Number(req.query.page) || 1;
+    const pageSize = Number(req.query.pageSize) || 10;
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+
+    // Parse numeric query params
+    const parsedOfferMin = offerMin !== undefined ? Number(offerMin) : undefined;
+    const parsedOfferMax = offerMax !== undefined ? Number(offerMax) : undefined;
+    const parsedExperience = experience !== undefined ? Number(experience) : undefined;
+
+    // Parse remote to boolean if it's a string
+    let remoteBool: boolean | undefined = undefined;
+    if (typeof remote === 'string') {
+      if (remote === 'true') remoteBool = true;
+      else if (remote === 'false') remoteBool = false;
+    } else if (typeof remote === 'boolean') {
+      remoteBool = remote;
+    }
+
+    // Use Prisma's QueryMode enum for case-insensitive search
+    const queryMode = 'insensitive' as const;
+
+    // Handle skills: if it's a string (e.g., '["React"]'), parse it to an array
+    let skillsArray = skills;
+    if (typeof skills === 'string') {
+        try {
+            skillsArray = JSON.parse(skills);
+        } catch {
+            skillsArray = [skills]; // fallback if not a JSON array string
+        }
+    }
+
+    const where: any = {
+        ...(parsedOfferMin !== undefined ? { offerMin: { gte: parsedOfferMin } } : {}),
+        ...(parsedOfferMax !== undefined ? { offerMax: { lte: parsedOfferMax } } : {}),
+        ...(location ? { location: { contains: location, mode: queryMode } } : {}),
+        ...(remoteBool !== undefined ? { remote: remoteBool } : {}),
+        ...(company ? { company: { contains: company, mode: queryMode } } : {}),
+        ...(skillsArray && skillsArray.length ? { skills: { hasSome: skillsArray } } : {}),
+        ...(parsedExperience !== undefined ? { experience: { gte: parsedExperience } } : {}),
+    };
+
+    const [posts, total] = await Promise.all([
+        prisma.post.findMany({
+            where,
+            skip,
+            take,
+            orderBy: { createdAt: 'desc' },
+        }),
+        prisma.post.count({ where })
+    ]);
+
+
+    logger.info(posts)
+
+    res.status(200).json({
+        success: true,
+        message: 'Posts retrieved successfully',
+        posts,
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize)
     });
 };

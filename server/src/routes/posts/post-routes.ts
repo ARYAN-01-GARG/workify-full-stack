@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { asyncHandler } from '../../middlewares/global-middlewares/errorHandler';
-import { createPost, deletePost, getAllPosts, getPostById, updatePost } from '../../controllers/posts/posts-controllers';
+import { createPost, deletePost, getAllPosts, getPostById, updatePost, searchPosts } from '../../controllers/posts/posts-controllers';
 import authMiddleware from '../../middlewares/auth/auth-middleware';
 import authRoleMiddleware from '../../middlewares/auth/auth-role-middleware';
 import { acceptJobApplication, applyForJob } from '../../controllers/posts/job-apply-controller';
@@ -10,6 +10,8 @@ import { uploadPostImage } from '../../controllers/posts/post-image-controller';
 const router = Router();
 
 router.get('/', asyncHandler(getAllPosts));
+
+router.get('/search', asyncHandler(searchPosts));
 
 router.get('/:id', asyncHandler(getPostById));
 
