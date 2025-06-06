@@ -215,11 +215,11 @@ export const deletePost = async (req: Request<{ id : string }>, res: Response, n
     });
 };
 
-export const searchPosts = async (req: Request<{}, {}, {}, { offerMin?: number; offerMax?: number; location?: string; remote?: boolean | string; company?: string; skills?: string[]; experience?: number; page?: number; pageSize?: number }>, res: Response) => {
+export const searchPosts = async (req: Request<{}, {}, {}, { search?: string; offerMin?: number; offerMax?: number; location?: string; remote?: boolean | string; skills?: string[]; experience?: number; page?: number; pageSize?: number }>, res: Response) => {
     logger.info(`Search posts invoked`);
     logger.info(`Request query: ${JSON.stringify(req.query)}`);
 
-    const { offerMin, offerMax, location, remote, company, skills, experience } = req.query;
+    const { search, offerMin, offerMax, location, remote, skills, experience } = req.query;
     const page = Number(req.query.page) || 1;
     const pageSize = Number(req.query.pageSize) || 10;
     const skip = (page - 1) * pageSize;
@@ -253,11 +253,18 @@ export const searchPosts = async (req: Request<{}, {}, {}, { offerMin?: number; 
     }
 
     const where: any = {
+        ...(search
+            ? {
+                OR: [
+                    { title: { contains: search, mode: queryMode } },
+                    { company: { contains: search, mode: queryMode } }
+                ]
+            }
+            : {}),
         ...(parsedOfferMin !== undefined ? { offerMin: { gte: parsedOfferMin } } : {}),
         ...(parsedOfferMax !== undefined ? { offerMax: { lte: parsedOfferMax } } : {}),
         ...(location ? { location: { contains: location, mode: queryMode } } : {}),
         ...(remoteBool !== undefined ? { remote: remoteBool } : {}),
-        ...(company ? { company: { contains: company, mode: queryMode } } : {}),
         ...(skillsArray && skillsArray.length ? { skills: { hasSome: skillsArray } } : {}),
         ...(parsedExperience !== undefined ? { experience: { gte: parsedExperience } } : {}),
     };
