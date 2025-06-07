@@ -20,7 +20,6 @@ export default function RoleSelection() {
     github: user.candidate?.github || "",
     experience: String(user.candidate?.experience || "0"),
     skills: user.candidate?.skills || [],
-    resume: user.candidate?.resume || "",
   });
 
 
@@ -90,6 +89,8 @@ export default function RoleSelection() {
         description={pages[currentPage].description}
         handlePrev={handleClick}
         handleNext={handleClick}
+        prevActionLabel={currentPage === 0 ? "" : "Back"}
+        nextActionLabel={currentPage === pages.length - 1 ? "Submit" : "Next"}
       >
         {pages[currentPage].children}
       </RoleSelectionModal>

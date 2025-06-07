@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
 export default function RoleSelectionModal({
@@ -33,8 +34,8 @@ export default function RoleSelectionModal({
               {children}
           </div>
         </div>
-        <div className="flex justify-between items-center pt-6 px-20 ">
-            <Button onClick={() => handlePrev("back")} size={"lg"}>{prevActionLabel}</Button>
+        <div className={cn("flex justify-between items-center pt-6 px-20", { "justify-end": prevActionLabel === "" }) }>
+            {prevActionLabel && <Button onClick={() => handlePrev("back")} size={"lg"}>{prevActionLabel}</Button>}
             <Button type="submit" onClick={() => handleNext("next")} size={"lg"}>{nextActionLabel}</Button>
         </div>
     </div>
