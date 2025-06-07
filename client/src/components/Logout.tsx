@@ -1,4 +1,4 @@
-import { logoutUser } from "@/store/features/userSlice";
+import { logoutUser } from "@/store/features/auth/authSlice";
 import { AppDispatch } from "@/store/store"
 import { useDispatch } from "react-redux"
 
