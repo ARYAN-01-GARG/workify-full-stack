@@ -3,7 +3,7 @@ import RoleSelectionModal from "./RoleSelectionModal";
 import Select from "./Select";
 import { CandidateData } from "./CandidateData";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, setUser } from "@/store/features/userSlice";
+import { createCandidate, selectUser, setUser } from "@/store/features/userSlice";
 import { AppDispatch } from "@/store/store";
 import Skills from "./Skills";
 
@@ -25,6 +25,7 @@ export default function RoleSelection() {
 
   const handleClick = async (action: string) => {
     // Handle the save action here
+    console.log("Data to save:", data);
     if (user.role === "CANDIDATE") {
       dispatch(setUser({
         ...user,
@@ -39,11 +40,9 @@ export default function RoleSelection() {
     if (action === "next") {
       if (currentPage < pages.length - 1) {
         setCurrentPage(currentPage + 1);
-      }
-      else if (currentPage === pages.length - 1) {
-        // Handle the final submission here
-        console.log("Final data:", data);
-        // You might want to dispatch an action or make an API call to save the data
+      } else if (currentPage === pages.length - 1) {
+        dispatch(createCandidate( user.candidate ));
+        window.location.href = '/';
       }
     } else {
       if (currentPage > 0) {

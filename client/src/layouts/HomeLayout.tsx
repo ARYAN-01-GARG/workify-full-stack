@@ -10,6 +10,7 @@ function HomeLayout() {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getUser());
+    console.log("Fetching user data on HomeLayout mount");
   }, [dispatch]);
   return (
     <>

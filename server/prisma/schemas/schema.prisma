@@ -86,6 +86,7 @@ model Candidate {
   id           String   @id @default(cuid())
   userId       String   @unique
   resume       String?
+  domain       String?
   portfolio    String?
   github       String?
   location     String?

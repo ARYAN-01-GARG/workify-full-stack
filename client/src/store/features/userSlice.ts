@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { loginUser, logoutUser, registerUser, resendOtp, VerifyOTP } from './auth/authSlice';
+import { toast } from 'react-toastify';
 interface UserSliceState {
     user : User;
     loading : boolean;
@@ -20,8 +21,11 @@ export const tempUser = JSON.stringify({
     pastEmployer: [],
 });
 
+const userFromStorage = localStorage.getItem('user');
 const initialState : UserSliceState = {
-    user: JSON.parse(localStorage.getItem('user') || tempUser),
+    user: userFromStorage && userFromStorage !== 'undefined' && userFromStorage !== ''
+        ? JSON.parse(userFromStorage)
+        : JSON.parse(tempUser),
     loading: false,
     token: localStorage.getItem('token') || null,
     error: null,
@@ -45,6 +49,35 @@ export const getUser = createAsyncThunk(
     }
 );
 
+export const createCandidate = createAsyncThunk(
+    'user/createCandidate',
+    async (candidate: Candidate | undefined) => {
+        if (!candidate) {
+            console.error('Candidate data is undefined');
+            throw new Error('Candidate data is required');
+        }
+        try {
+            const response = await axios.post('http://localhost:3000/api/v1/candidate/', {
+                experience: candidate.experience,
+                skills: candidate.skills,
+                location: candidate.location,
+                github: candidate.github,
+                domain : candidate.domain,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+                },
+            });
+            toast.success('Candidate created successfully');
+            console.log('Candidate created:', response.data);
+            return response.data;
+        } catch (error) {
+            toast.error('Error creating candidate');
+            console.error('Error creating candidate:', error);
+            throw error;
+        }
+    }
+);
 
 
 const userSlice = createSlice({
@@ -53,7 +86,7 @@ const userSlice = createSlice({
     reducers: {
         setUser(state, action) {
             state.user = action.payload;
-            localStorage.setItem('user', JSON.stringify(state.user));
+            localStorage.setItem('user', JSON.stringify(action.payload));
         },
         setLoading(state, action) {
             state.loading = action.payload;
@@ -79,6 +112,7 @@ const userSlice = createSlice({
             .addCase(getUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;
+                localStorage.setItem('user', JSON.stringify(action.payload));
             })
             .addCase(getUser.rejected, (state) => {
                 state.loading = false;
@@ -140,6 +174,20 @@ const userSlice = createSlice({
             .addCase(resendOtp.rejected, (state) => {
                 state.loading = false;
             })
+            .addCase(createCandidate.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(createCandidate.fulfilled, (state, action) => {
+                state.loading = false;
+                if (action.payload) {
+                    state.user.candidate = action.payload;
+                    localStorage.setItem('user', JSON.stringify(state.user));
+                }
+            })
+            .addCase(createCandidate.rejected, (state) => {
+                state.loading = false;
+            });
+
     }
 });
 

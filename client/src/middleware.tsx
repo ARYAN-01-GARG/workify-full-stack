@@ -10,7 +10,7 @@ import {
 } from "./routes";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { selectToken } from "./store/features/userSlice";
+import { getUser, selectToken, selectUser } from "./store/features/userSlice";
 import { selectOtpActivation } from "./store/features/middlewareSlice";
 import { AppDispatch } from "./store/store";
 import { getAllPosts } from "./store/features/postsSlice";
@@ -30,16 +30,28 @@ const Middleware:React.FC<MiddlewareProps> = ({
     const isPublicRoute = publicRoutes.includes(pathname);
     const isOtpRoute = verifyOtpRedirectionRoutes.includes(otpActivationRoute);
 
+    const user = useSelector(selectUser);
+
+    const isProfileCompleted = !!(user.candidate?.id || user.recruiter?.id);
+
     const isAuthenticated = !!useSelector(selectToken);
 
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         dispatch(getAllPosts());
-    }, [dispatch]);
+        if(isAuthenticated) dispatch(getUser());
+    }, [dispatch, isAuthenticated]);
 
     useEffect(() => {
-        if(isAuthenticated && (isAuthRoute || isPublicRoute)) {
+        if(isAuthenticated && isAuthRoute) {
+            if(isProfileCompleted) {
+                navigate(DEFAULT_LOGIN_REDIRECT);
+            } else {
+                navigate('/');
+            }
+        }
+        if(isAuthenticated && isProfileCompleted) {
             navigate(DEFAULT_LOGIN_REDIRECT);
         }
         if(!isAuthenticated && !isPublicRoute && !isAuthRoute) {
@@ -48,7 +60,7 @@ const Middleware:React.FC<MiddlewareProps> = ({
         if(!isOtpRoute && pathname === '/auth/verify-otp') {
             navigate('/auth/login');
         }
-    }, [isAuthenticated, isAuthRoute, isPublicRoute, navigate , pathname , isOtpRoute , otpActivationRoute]);
+    }, [isAuthenticated, isAuthRoute, isPublicRoute, navigate , pathname , isOtpRoute , otpActivationRoute, isProfileCompleted]);
 
     return children;
 }

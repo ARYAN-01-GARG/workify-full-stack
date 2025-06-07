@@ -6,7 +6,7 @@ import { APIError } from "../../types/apiError";
 const createCandidate = async (req: Request, res: Response, next: NextFunction) => {
     logger.info("Creating candidate");
     logger.info("Request body:", req.body);
-    const { resume, portfolio, github, location, skills , experience } = req.body;
+    const { github, location, skills, experience, domain } = req.body;
     logger.info("User Id from token:", req.user?.id);
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -19,7 +19,8 @@ const createCandidate = async (req: Request, res: Response, next: NextFunction) 
         logger.error("User ID is missing in the request");
         throw new APIError("User ID is required", 400);
     }
-    if (!resume || !portfolio || !github || !location || !skills || !experience) {
+    console.log(req.body);
+    if (!domain || !github || !location || !skills || !experience) {
         logger.error("Missing required fields in request body");
         throw new APIError("All fields are required", 400);
     }
@@ -30,15 +31,19 @@ const createCandidate = async (req: Request, res: Response, next: NextFunction) 
     });
     if (existingCandidate) {
         logger.error("Candidate already exists for user ID:", userId);
-        throw new APIError("Candidate already exists", 400);
+        res.status(400).json({
+            success: false,
+            message: "Candidate already exists for this user",
+            candidate: existingCandidate
+        });
+        return;
     }
     logger.info("Creating new candidate for user ID:", userId);
     // Create a new candidate
     const candidate = await prisma.candidate.create({
         data: {
             userId,
-            resume,
-            portfolio,
+            domain,
             github,
             location,
             skills,
