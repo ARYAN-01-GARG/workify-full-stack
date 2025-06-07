@@ -28,7 +28,7 @@ export default function RoleSelectionModal({
               {secondaryLabel && <h3 className="text-black/90 font-[500] text-2xl">{secondaryLabel}</h3>}
               <p className="text-neutral-800/65 font-[500] text-xl max-w-[80%]">{description}</p>
           </div>
-          <div className="flex-grow bg-red-50">
+          <div className="flex-grow w-full px-12 overflow-hidden">
               {children}
           </div>
         </div>

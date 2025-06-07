@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import LandingPage from "@/pages/landing-page/LandingPage";
 
 function LandingPageLayout() {
-  const isRoleModalOpen = false;
+  const isRoleModalOpen = true;
   return (
     <div className="relative min-h-screen">
         <div className={cn(" ", {
