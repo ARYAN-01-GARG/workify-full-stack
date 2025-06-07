@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express, { Express } from "express";
+import express, { Express, Request, Response } from "express";
 import { connectToDB } from "./config/prisma";
 import AuthRoutes from "./routes/auth/auth-routes";
 import PostRoutes from "./routes/posts/post-routes";
@@ -37,6 +37,14 @@ app.use("/api/v1/post", PostRoutes);
 app.use('/api/v1/user', UserRoutes);
 app.use('/api/v1/recruiter', RecruiterRoutes);
 app.use("/api/v1/candidate", CandidateRoutes);
+
+
+app.all("*", (req : Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    message: "This Route doesn't exist",
+  });
+});
 
 // Error Handler
 app.use(globalErrorHandler);
