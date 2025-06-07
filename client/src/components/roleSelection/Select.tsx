@@ -8,7 +8,7 @@ export default function Select() {
 
 
   return (
-    <form>
+    <div>
         <div className="flex gap-x-12 w-full justify-center">
             <SelectionCard
                 label="Talent Seeker"
@@ -25,7 +25,7 @@ export default function Select() {
                 onClick={() => dispatch(setUser({ ...user, role: "CANDIDATE" }))}
             />
         </div>
-    </form>
+    </div>
   )
 }
 
@@ -44,7 +44,7 @@ const SelectionCard = ({
 }) => {
     return (
         <div
-            className=" relative border border-[#F3F6FC] p-4 rounded-lg shadow-md hover:shadow-xl md:w-[200px] lg:w-[300px] transition-shadow duration-300 hover:scale-105 cursor-pointer"
+            className=" relative border border-[#F3F6FC] bg-white p-4 rounded-xl shadow-md hover:shadow-xl md:w-[200px] lg:w-[300px] transition-shadow duration-300 hover:scale-105 cursor-pointer"
             onClick={onClick}
         >
             {/* Image render on Top */}

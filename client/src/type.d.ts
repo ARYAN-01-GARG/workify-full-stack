@@ -52,6 +52,7 @@ type Employer = {
 
 type Candidate = {
     id: string;
+    domain: string;
     userId: string;
     skills: string[];
     experience: number;
