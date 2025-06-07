@@ -3,10 +3,9 @@ import Navbar from "@/components/landing-page/Navbar"
 import RoleSelection from "@/components/roleSelection/RoleSelection";
 import { cn } from "@/lib/utils";
 import LandingPage from "@/pages/landing-page/LandingPage";
-import { useState } from "react";
 
 function LandingPageLayout() {
-  const [ isRoleModalOpen, setIsRoleModalOpen ] = useState(false);
+  const isRoleModalOpen = false;
   return (
     <div className="relative min-h-screen">
         <div className={cn(" ", {
