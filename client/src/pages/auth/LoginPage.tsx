@@ -13,7 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema } from "@/schemas/LoginSchema";
 import { AppDispatch } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, selectLoading, selectUser } from "@/store/features/userSlice";
+import { loginUser } from "@/store/features/auth/authSlice";
+import { selectLoading, selectUser } from "@/store/features/userSlice";
 
 
 const LoginPage = () => {

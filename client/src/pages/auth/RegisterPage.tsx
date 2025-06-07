@@ -12,8 +12,9 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from "@/schemas/RegisterSchema";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser, selectLoading, selectUser } from "@/store/features/userSlice";
+import { selectLoading, selectUser } from "@/store/features/userSlice";
 import { AppDispatch } from "@/store/store";
+import { registerUser } from "@/store/features/auth/authSlice";
 
 
 const RegisterPage = () => {

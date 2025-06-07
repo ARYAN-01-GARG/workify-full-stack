@@ -3,7 +3,8 @@ import AuthModal from "@/components/auth/AuthModal";
 import InputOTP from "@/components/auth/InputOtp";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import { resendOtp, selectLoading, selectUser, VerifyOTP } from "@/store/features/userSlice";
+import { VerifyOTP, resendOtp } from "@/store/features/auth/authSlice";
+import { selectLoading, selectUser } from "@/store/features/userSlice";
 import { Button } from "@/components/ui/button";
 import { selectOtpActivation, setOtpActivation } from "@/store/features/middlewareSlice";
 
