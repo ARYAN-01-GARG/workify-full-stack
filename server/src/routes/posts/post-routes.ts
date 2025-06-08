@@ -6,6 +6,7 @@ import authRoleMiddleware from '../../middlewares/auth/auth-role-middleware';
 import { acceptJobApplication, applyForJob } from '../../controllers/posts/job-apply-controller';
 import upload from '../../middlewares/global-middlewares/upload-image';
 import { uploadPostImage } from '../../controllers/posts/post-image-controller';
+import { limiter } from '../../controllers/limiter';
 
 const router = Router();
 
@@ -25,6 +26,6 @@ router.post('/:jobId/accept', authMiddleware, authRoleMiddleware, asyncHandler(a
 
 router.post('/:jobId/apply', authMiddleware, asyncHandler(applyForJob));
 
-router.put('/:jobId/image' , authMiddleware, upload.single('image'), asyncHandler(uploadPostImage));
+router.put('/:jobId/image' , limiter(10 * 60 * 1000, 10), authMiddleware, upload.single('image'), asyncHandler(uploadPostImage));
 
 export default router;
