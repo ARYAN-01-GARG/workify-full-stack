@@ -4,7 +4,6 @@ import RenderImage from "./RenderImage";
 
 const AuthCarousel = () => {
   const navigate = useNavigate();
-
   const images =[
     {
       image: "/images/auth/image1.svg",

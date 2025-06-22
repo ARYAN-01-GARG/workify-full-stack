@@ -77,3 +77,4 @@ type Recruiter = {
     jobLocation: string | null;
     pastEmployers: Employer[];
 }
+
