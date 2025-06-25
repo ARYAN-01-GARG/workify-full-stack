@@ -41,7 +41,8 @@ export default function RoleSelection() {
       if (currentPage < pages.length - 1) {
         setCurrentPage(currentPage + 1);
       } else if (currentPage === pages.length - 1) {
-        dispatch(createCandidate( user.candidate ));
+        console.log("Submitting data:", user.candidate);
+        await dispatch(createCandidate( user.candidate ));
         window.location.href = '/';
       }
     } else {

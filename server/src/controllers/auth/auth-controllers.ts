@@ -10,7 +10,7 @@ import logger from '../../middlewares/global-middlewares/logger';
 // Register Controller
 const registerUser = async (req: Request<{} , {}, ReqBodyRegisterUser>, res: Response , next : NextFunction) => {
     logger.info('Registering new user');
-    logger.info(`Request body: ${JSON.stringify(req.body)}`);
+    logger.info(`Request body: ${JSON.stringify({ email: req.body.email, name: req.body.name })}`);
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
         logger.error('Missing required fields for registration');

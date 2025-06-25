@@ -64,6 +64,8 @@ const sendOtpEmail = async (req : Request, res: Response, next: NextFunction) =>
         ),
       });
 
+    logger.info(`OTP email sent to ${email} OTP : ${verificationCode}`);
+
     if(response.accepted.length === 0){
         logger.error('Email not sent');
         throw new APIError('Email not sent', 500);

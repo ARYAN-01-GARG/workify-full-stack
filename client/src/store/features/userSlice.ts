@@ -37,7 +37,7 @@ export const getUser = createAsyncThunk(
         try {
             const response = await axios.get('http://localhost:3000/api/v1/user/', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+                    Authorization: `Bearer ${localStorage.getItem('token') || '' }`,
                 },
             });
             console.log('User data fetched:', response.data.user);
@@ -70,7 +70,7 @@ export const createCandidate = createAsyncThunk(
             });
             toast.success('Candidate created successfully');
             console.log('Candidate created:', response.data);
-            return response.data;
+            return response.data.candidate;
         } catch (error) {
             toast.error('Error creating candidate');
             console.error('Error creating candidate:', error);
@@ -179,10 +179,9 @@ const userSlice = createSlice({
             })
             .addCase(createCandidate.fulfilled, (state, action) => {
                 state.loading = false;
-                if (action.payload) {
-                    state.user.candidate = action.payload;
-                    localStorage.setItem('user', JSON.stringify(state.user));
-                }
+                state.user.candidate = action.payload;
+                console.log('Candidate created:', action.payload);
+                localStorage.setItem('user', JSON.stringify(state.user));
             })
             .addCase(createCandidate.rejected, (state) => {
                 state.loading = false;

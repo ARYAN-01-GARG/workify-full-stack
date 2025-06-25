@@ -31,7 +31,7 @@ function HomeNavbar() {
             { /* Navigation Links */ }
             <nav className="flex items-center md:gap-8 lg:gap-12 mr-8 font-[650] text-lg text-[#16233B]">
                 {links.map((link, index) => (
-                    <div key={index} >
+                    <div key={index} className="cursor-pointer hover:text-primary transition-colors duration-200">
                         {link}
                     </div>
                 ))}
