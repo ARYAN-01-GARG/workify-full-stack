@@ -31,13 +31,6 @@ export const verifyOtpRedirectionRoutes = [
 ];
 
 /**
- * The prefix for the api authentiaction routes
- * Routes that start with this prefix are used for authentication
- * @type {string}
- */
-export const apiRoutePrefix = '/api/auth';
-
-/**
  * The default redirect route after login
  * @type {string}
  */
@@ -50,5 +43,7 @@ export const DEFAULT_LOGIN_REDIRECT = '/home';
  * @type {string[]}
  */
 export const protectedRoutes = [
-    '/logout',
+    '/profile',
+    '/settings',
+    '/dashboard',
 ]

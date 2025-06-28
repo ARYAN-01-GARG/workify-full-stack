@@ -25,7 +25,7 @@ const port = process.env.PORT || 3000;
 app.use(corsConfig);
 app.use(reqLogger);
 app.use(helmet());
-app.use(limiter(10 * 60 * 1000, 100));
+app.use(limiter(10 * 60 * 1000, 200));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(versionHandler("v1"));

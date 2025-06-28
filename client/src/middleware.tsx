@@ -48,10 +48,12 @@ const Middleware:React.FC<MiddlewareProps> = ({
             if(isProfileCompleted) {
                 navigate(DEFAULT_LOGIN_REDIRECT);
             } else {
+                console.log('Profile is not completed');
                 navigate('/');
             }
         }
-        if(isAuthenticated && isProfileCompleted) {
+        if(isAuthenticated && isProfileCompleted && !isPublicRoute && !isAuthRoute && !isOtpRoute) {
+            console.log('Profile is completed');
             navigate(DEFAULT_LOGIN_REDIRECT);
         }
         if(!isAuthenticated && !isPublicRoute && !isAuthRoute) {

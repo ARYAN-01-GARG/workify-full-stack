@@ -2,10 +2,17 @@ import Logo from "@/components/common/Logo";
 import { Bell } from "lucide-react";
 import UserAvatar from "../common/UserAvatar";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "@/store/features/auth/authSlice";
+import { useState } from "react";
 
 function HomeNavbar() {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [openUserMenu, setOpenUserMenu] = useState(false);
 
     const links = [
         'Home',
@@ -14,11 +21,15 @@ function HomeNavbar() {
         'Connections',
     ]
 
-    const handleLinkClick = (link: string) => {
-        // Handle link click logic here, e.g., navigation
-        console.log(`Navigating to ${link}`);
-        navigate(link);
-    };
+    const UserMenu = (
+        <div className=" bg-neutral-50 shadow-lg rounded-lg py-4 px-2 absolute left-4 top-8 mt-2 w-52">
+            <ul className="flex flex-col text-center justify-center w-full font-[500] ">
+                <li><span onClick={() => navigate('/profile')} className="block py-2 px-4 hover:bg-neutral-200 hover:text-primary rounded-sm">Profile</span></li>
+                <li><span onClick={() => navigate('/settings')} className="block py-2 px-4 hover:bg-neutral-200 hover:text-primary rounded-sm">Settings</span></li>
+                <li><span onClick={() => dispatch(logoutUser())} className="block py-2 px-4 hover:bg-neutral-200 hover:text-primary rounded-sm">Logout</span></li>
+            </ul>
+        </div>
+    )
 
   return (
     <header
@@ -42,8 +53,10 @@ function HomeNavbar() {
                 <div>
                     <Bell className="w-12"/>
                 </div>
-                <div onClick={() => handleLinkClick('/profile')} className="cursor-pointer">
+                <div onClick={() => setOpenUserMenu((prev) => !prev)} className="cursor-pointer relative">
                     <UserAvatar className="h-10 w-10"/>
+                    { /* User Menu */ }
+                    {openUserMenu && UserMenu}
                 </div>
             </div>
         </div>

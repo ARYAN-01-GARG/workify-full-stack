@@ -53,7 +53,6 @@ export default function RoleSelection() {
   }
 
   const handleChange = (name: string, value: string) => {
-    // Handle the change in user data here
     setData((prevData) => ({
       ...prevData,
       [name]: value,

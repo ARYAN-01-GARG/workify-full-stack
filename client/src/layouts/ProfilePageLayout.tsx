@@ -1,4 +1,5 @@
 import HomeNavbar from "@/components/home/Navbar"
+import Footer from "@/components/landing-page/Footer"
 import ProfilePage from "@/pages/profile/ProfilePage"
 
 function ProfilePageLayout() {
@@ -6,9 +7,7 @@ function ProfilePageLayout() {
     <>
         <HomeNavbar />
         <ProfilePage />
-        <footer>
-            Hello
-        </footer>
+        <Footer />
     </>
   )
 }
