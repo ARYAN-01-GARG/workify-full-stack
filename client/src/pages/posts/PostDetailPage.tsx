@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { AppDispatch } from "@/store/store";
 import { getPostById, selectPosts, selectPostsLoading, selectShowPost } from "@/store/features/postsSlice";
-import JobCard2 from "./JobCard2";
-import JobCard3 from "./JobCard3";
+import JobCard2 from "@/components/posts/JobCard2";
+import JobCard3 from "@/components/posts/JobCard3";
 
-export default function PostPage() {
+export default function PostDetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const jobs = useSelector(selectPosts);

@@ -10,6 +10,7 @@ import VerifyOtpPage from "./pages/auth/VerifyOtpPage"
 import HomeLayout from "./layouts/HomeLayout"
 import ProfilePageLayout from "./layouts/ProfilePageLayout"
 import PostPageLayout from "./layouts/PostPageLayout"
+import PostDetailPageLayout from "./layouts/PostDetailPageLayout"
 
 function App() {
   return (
@@ -31,8 +32,8 @@ function App() {
         {/* Protected Routes */}
         <Route path="/home" element={<HomeLayout />} />
         <Route path="/profile" element={<ProfilePageLayout />} />
-        <Route path="/jobs" element={<HomeLayout />} />
-        <Route path="/jobs/:id" element={<PostPageLayout />} />
+        <Route path="/jobs" element={<PostPageLayout />} />
+        <Route path="/jobs/:id" element={<PostDetailPageLayout />} />
 
         {/* 404 Route */}
         <Route path="*" element={<NotFound/>} />

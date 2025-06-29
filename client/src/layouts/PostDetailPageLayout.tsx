@@ -1,12 +1,12 @@
 import HomeNavbar from "@/components/home/Navbar";
 import Footer from "@/components/landing-page/Footer";
-import PostPage from "@/pages/posts/PostPage";
+import PostDetailPage from "@/pages/posts/PostDetailPage";
 
-export default function PostPageLayout() {
+export default function PostDetailPageLayout() {
   return (
     <>
         <HomeNavbar />
-        <PostPage />
+        <PostDetailPage />
         <Footer />
     </>
   )
