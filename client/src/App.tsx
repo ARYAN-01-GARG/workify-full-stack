@@ -31,8 +31,8 @@ function App() {
         {/* Protected Routes */}
         <Route path="/home" element={<HomeLayout />} />
         <Route path="/profile" element={<ProfilePageLayout />} />
-        <Route path="/job" element={<HomeLayout />} />
-        <Route path="/job/:id" element={<PostPageLayout />} />
+        <Route path="/jobs" element={<HomeLayout />} />
+        <Route path="/jobs/:id" element={<PostPageLayout />} />
 
         {/* 404 Route */}
         <Route path="*" element={<NotFound/>} />

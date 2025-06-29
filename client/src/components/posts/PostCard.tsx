@@ -92,9 +92,11 @@ function PostCard({ post }: { post: Post }) {
           {`Apply By ${getApplyBy(post.createdAt)} . Posted ${daysAgo(post.createdAt)}`}
         </span>
         <div className="flex gap-4 text-xl">
-          <Button variant={"outline"} size={"lg"} className="cursor-pointer font-semibold">
-            <Link to={`/job/${post.id}`}>View Details</Link>
-          </Button>
+          <Link to={`/jobs/${post.id}`}>
+            <Button variant={"outline"} size={"lg"} className="cursor-pointer font-semibold">
+              View Details
+            </Button>
+          </Link>
           <Button size={"lg"} className="cursor-pointer font-semibold">
             Apply Now
           </Button>

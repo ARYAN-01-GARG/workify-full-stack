@@ -51,7 +51,7 @@ const JobCard3 = ({ job }: { job: Post }) => {
         <span className="text-[#2B5A9E] bg-[#E6ECF8] border border-[#C8D8EF] px-4 py-1 rounded-md">{`Posted ${calculateDaysAgo(job.createdAt)}d ago`}</span>
       </div>
       <div className="flex gap-5 w-full justify-center pt-3">
-        <Link to={`/job/${job.id}`} className="bg-[#2B5A9E] text-white font-medium text-xl py-2 px-5 rounded-2xl hover:opacity-80">View Details</Link>
+        <Link to={`/jobs/${job.id}`} className="bg-[#2B5A9E] text-white font-medium text-xl py-2 px-5 rounded-2xl hover:opacity-80">View Details</Link>
       </div>
     </div>
   );
