@@ -1,6 +1,8 @@
 import { Calendar, CalendarClock, Wallet } from "lucide-react";
 import { Button } from "../ui/button";
+
 import PostHeader from "./PostHeader";
+import { Link } from "react-router-dom";
 
 function daysAgo(dateString: string) {
   const date = new Date(dateString);
@@ -91,7 +93,7 @@ function PostCard({ post }: { post: Post }) {
         </span>
         <div className="flex gap-4 text-xl">
           <Button variant={"outline"} size={"lg"} className="cursor-pointer font-semibold">
-            View Details
+            <Link to={`/job/${post.id}`}>View Details</Link>
           </Button>
           <Button size={"lg"} className="cursor-pointer font-semibold">
             Apply Now

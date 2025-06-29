@@ -16,6 +16,7 @@ type Post = {
     description: string;
     skills : string[];
     image: null | string;
+    isActive: boolean;
     duration : number;
     experience : number;
     location: string;

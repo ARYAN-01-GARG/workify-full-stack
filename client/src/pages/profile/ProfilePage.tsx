@@ -1,6 +1,8 @@
 function ProfilePage() {
   return (
-    <div>ProfilePage</div>
+    <main className="min-h-screen">
+      ProfilePage
+    </main>
   )
 }
 

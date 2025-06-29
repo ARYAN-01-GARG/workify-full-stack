@@ -43,26 +43,26 @@ const Middleware:React.FC<MiddlewareProps> = ({
         if(isAuthenticated) dispatch(getUser());
     }, [dispatch, isAuthenticated]);
 
-    useEffect(() => {
-        if(isAuthenticated && isAuthRoute) {
-            if(isProfileCompleted) {
-                navigate(DEFAULT_LOGIN_REDIRECT);
-            } else {
-                console.log('Profile is not completed');
-                navigate('/');
-            }
-        }
-        if(isAuthenticated && isProfileCompleted && !isPublicRoute && !isAuthRoute && !isOtpRoute) {
-            console.log('Profile is completed');
-            navigate(DEFAULT_LOGIN_REDIRECT);
-        }
-        if(!isAuthenticated && !isPublicRoute && !isAuthRoute) {
-            navigate('/auth/login');
-        }
-        if(!isOtpRoute && pathname === '/auth/verify-otp') {
-            navigate('/auth/login');
-        }
-    }, [isAuthenticated, isAuthRoute, isPublicRoute, navigate , pathname , isOtpRoute , otpActivationRoute, isProfileCompleted]);
+    // useEffect(() => {
+        // if(isAuthenticated && isAuthRoute) {
+        //     if(isProfileCompleted) {
+        //         navigate(DEFAULT_LOGIN_REDIRECT);
+        //     } else {
+        //         console.log('Profile is not completed');
+        //         navigate('/');
+        //     }
+        // }
+        // if(isAuthenticated && isProfileCompleted && !isPublicRoute && !isAuthRoute && !isOtpRoute) {
+        //     console.log('Profile is completed');
+        //     navigate(DEFAULT_LOGIN_REDIRECT);
+        // }
+        // if(!isAuthenticated && !isPublicRoute && !isAuthRoute) {
+        //     navigate('/auth/login');
+        // }
+        // if(!isOtpRoute && pathname === '/auth/verify-otp') {
+        //     navigate('/auth/login');
+        // }
+    // }, [isAuthenticated, isAuthRoute, isPublicRoute, navigate , pathname , isOtpRoute , otpActivationRoute, isProfileCompleted]);
 
     return children;
 }

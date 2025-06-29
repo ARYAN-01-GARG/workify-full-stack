@@ -8,8 +8,8 @@ import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage"
 import NewPasswordPage from "./pages/auth/NewPasswordPage"
 import VerifyOtpPage from "./pages/auth/VerifyOtpPage"
 import HomeLayout from "./layouts/HomeLayout"
-import Logout from "./components/Logout"
 import ProfilePageLayout from "./layouts/ProfilePageLayout"
+import PostPageLayout from "./layouts/PostPageLayout"
 
 function App() {
   return (
@@ -31,7 +31,8 @@ function App() {
         {/* Protected Routes */}
         <Route path="/home" element={<HomeLayout />} />
         <Route path="/profile" element={<ProfilePageLayout />} />
-        <Route path="/logout" element={<Logout/>} />
+        <Route path="/job" element={<HomeLayout />} />
+        <Route path="/job/:id" element={<PostPageLayout />} />
 
         {/* 404 Route */}
         <Route path="*" element={<NotFound/>} />
