@@ -63,6 +63,14 @@ const createCandidate = async (req: Request, res: Response, next: NextFunction) 
     });
 }
 
+const validateCandidateId = (candidateId: string) => {
+    if (!candidateId || typeof candidateId !== 'string' || candidateId.trim() === '') {
+        logger.error("Invalid candidate ID:", candidateId);
+        throw new APIError("Invalid candidate ID", 400);
+    }
+    return candidateId;
+}
+
 const getCandidate = async (req: Request<{candidateId : string}>, res: Response, next: NextFunction) => {
     const { candidateId } = req.params;
     logger.info("Fetching candidate for user ID:", candidateId);
@@ -156,5 +164,6 @@ export {
     createCandidate,
     getCandidate,
     updateCandidate,
+    validateCandidateId
 };
 
